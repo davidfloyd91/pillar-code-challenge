@@ -56,10 +56,11 @@ class LocationForm extends Component {
     fetch(api.urlBase + query + api.key)
     .then(res => res.json())
     .then(parsed => {
-      if (parsed.cod !== 200) {
+      console.log(parsed)
+      if (parsed.cod != 200) {
         this.setState({ error: 'Error: ' + parsed.message });
       } else {
-        console.log(parsed);
+        this.props.handleResponse(parsed);
       };
     })
   };
