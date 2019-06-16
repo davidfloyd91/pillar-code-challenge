@@ -5,16 +5,22 @@ let zipQuery, cityQuery, lat, lon, coordsQuery;
 
 class LocationForm extends Component {
   state = {
-    error: "",
     input: "zip"
   };
 
+  componentDidUpdate() {
+    if (this.props.lat && this.props.lon && !this.props.forecast.list) {
+      coordsQuery = "lat=" + this.props.lat + "&lon=" + this.props.lon;
+      this.getWeather(coordsQuery);
+    };
+  };
+
   handleChange = e => {
-    this.setState({error: ""});
+    this.props.error("");
 
     if (e.target.id === "zip") {
       if (!/^[0-9]{5}$/.test(e.target.value)) {
-        this.setState({error: "Please enter a valid five-digit zip code"});
+        this.props.error("Please enter a valid five-digit zip code");
       };
       zipQuery = "zip=" + e.target.value + ",us";
     } else if (e.target.id === "city") {
@@ -58,7 +64,7 @@ class LocationForm extends Component {
     .then(parsed => {
       console.log(parsed)
       if (parsed.cod != 200) {
-        this.setState({ error: 'Error: ' + parsed.message });
+        this.props.error('Error: ' + parsed.message);
       } else {
         this.props.handleResponse(parsed);
       };
@@ -93,7 +99,6 @@ class LocationForm extends Component {
           }
           <button type="submit">Search</button>
         </form>
-        <p>{this.state.error}</p>
       </Fragment>
     );
   };

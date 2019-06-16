@@ -20,6 +20,7 @@ let temperatureChartData = {
     ]
   },
   options: {
+    animation: false,
     legend: {
       display: false
     },
@@ -66,6 +67,7 @@ let pressureChartData = {
     ]
   },
   options: {
+    animation: false,
     legend: {
       display: false
     },
@@ -112,6 +114,7 @@ let humidityChartData = {
     ]
   },
   options: {
+    animation: false,
     legend: {
       display: false
     },
@@ -164,6 +167,11 @@ class Forecast extends Component {
 
   getData = () => {
     if (this.props.forecast.list) {
+      temperatureData = [];
+      pressureData = [];
+      humidityData = [];
+      timeData = [];
+
       this.props.forecast.list.forEach(period => {
         temperatureData.push(period.main.temp);
         pressureData.push(period.main.pressure);
